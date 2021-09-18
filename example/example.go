@@ -1,16 +1,12 @@
-# fstask
+package main
 
-### Installation
+import (
+	"github.com/NICEXAI/fstask"
+	"github.com/fsnotify/fsnotify"
+	"log"
+)
 
-Run the following command under your project:
-
-> go get -u github.com/NICEXAI/fstask
-
-### Basic Usage
-
-If I want to listen for changes to the settings.yaml file and perform a response, you can:
-
-```go
+func main() {
 	fsTask, err := fstask.New("./example/config")
 	if err != nil {
 		log.Println(err)
@@ -27,4 +23,4 @@ If I want to listen for changes to the settings.yaml file and perform a response
 	})
 
 	fsTask.Wait()
-```
+}
