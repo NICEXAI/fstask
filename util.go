@@ -9,7 +9,7 @@ import (
 
 var (
 	debounceKey string
-	mutex sync.Mutex
+	mutex       sync.Mutex
 )
 
 //MD5 encryption
@@ -30,7 +30,7 @@ func Include(name string, list []string) bool {
 }
 
 // Debounce prevents jitter and ensures that it is executed only once in a given period of time
-func Debounce(key string, fn func(), delay time.Duration)  {
+func Debounce(key string, fn func(), delay time.Duration) {
 	mutex.Lock()
 	debounceKey = key
 	mutex.Unlock()

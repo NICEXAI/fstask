@@ -2,8 +2,10 @@ package fstask
 
 import (
 	"github.com/fsnotify/fsnotify"
+	"io/fs"
 	"log"
 	"math/rand"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -69,7 +71,22 @@ func New(name string) (*FsTask, error) {
 		}
 	}()
 
-	if err = watcher.Add(name); err != nil {
+	if err = filepath.WalkDir(name, func(path string, d fs.DirEntry, err error) error {
+		var curPath string
+
+		if !d.IsDir() {
+			return nil
+		}
+		curPath, err = filepath.Abs(path)
+		if err != nil {
+			return err
+		}
+		if err = watcher.Add(curPath); err != nil {
+			return err
+		}
+
+		return nil
+	}); err != nil {
 		return nil, err
 	}
 
